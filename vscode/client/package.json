@@ -1,5 +1,5 @@
 {
-	"name": "codewind-ls-node-prof-vscode-client",
+	"name": "codewind-node-profiler-vscode-client",
 	"description": "VSCode Client for the Microclomate Language Server for Node.js profiling",
 	"version": "0.1.0",
 	"author": "IBM",
@@ -7,7 +7,7 @@
 	"license": "EPL-2.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microclimate-dev2ops/microclimate-ls-node-prof.git"
+		"url": "https://github.com/eclipse/codewind-node-profiler"
 	},
 	"engines": {
 		"vscode": "^1.25.0"

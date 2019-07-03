@@ -21,13 +21,13 @@ describe('Should get diagnostics', () => {
         message: 'Function example() was the running function in 30.22% of samples.',
         range: toRange(6, 0, 6, 9999),
         severity: vscode.DiagnosticSeverity.Warning,
-        source: 'Codewind Language Server',
+        source: 'Codewind Node.js Profiling',
       },
       {
         message: 'Function <anonymous function> was the running function in 63.19% of samples.',
         range: toRange(0, 0, 0, 9999),
         severity: vscode.DiagnosticSeverity.Warning,
-        source: 'Codewind Language Server' },
+        source: 'Codewind Node.js Profiling' },
     ]);
   });
 });

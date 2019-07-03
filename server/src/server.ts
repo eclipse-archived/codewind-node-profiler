@@ -261,7 +261,7 @@ async function getCodewindProjectFolders(): Promise<string[]> {
   const workspaceFolders: WorkspaceFolder[] = await connection.workspace.getWorkspaceFolders();
   const cwProjectFolders: string[] = [];
   for ( const folder of workspaceFolders) {
-    connection.console.log('getMicrocliamteProjectFolders - found folder: ' + inspect(folder));
+    connection.console.log('getCodewindProjectFolders - found folder: ' + inspect(folder));
     const url: URL = new URL(folder.uri);
     const pathname: string = url.pathname;
     connection.console.log('Pathname is: ' + pathname);

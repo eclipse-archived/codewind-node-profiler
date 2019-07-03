@@ -1,8 +1,8 @@
 {
-	"name": "codewind-ls-node-prof",
-	"displayName": "Codewind Language Server for Node.js Profiling",
-	"description": "Code Highlighting for Codewind's JavaScript Load Testing",
-	"version": "19.3.0",
+	"name": "codewind-node-profiler",
+	"displayName": "Codewind Node.js Profiler",
+	"description": "Code Highlighting for Eclipse Codewind's Node.js Load Testing",
+	"version": "19.7.1",
 	"author": "IBM",
 	"publisher": "IBM",
 	"license": "EPL-2.0",
@@ -16,16 +16,16 @@
 		"Profiling",
 		"JavaScript",
 		"Load",
-		"IBM"
+		"Eclipse"
 	],
-	"icon": "res/img/microclimate.png",
-	"homepage": "https://microclimate-dev2ops.github.io/",
+	"icon": "res/img/codewind-logo.png",
+	"homepage": "https://www.eclipse.org/codewind/",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microclimate-dev2ops/microclimate-ls-node-prof"
+		"url": "https://github.com/eclipse/codewind-node-profiler"
 	},
 	"bugs": {
-		"url": "https://github.com/microclimate-dev2ops/microclimate-ls-node-prof/issues"
+		"url": "https://github.com/eclipse/codewind-node-profiler/issues"
 	},
 	"engines": {
 		"vscode": "^1.25.0"
