@@ -185,7 +185,7 @@ async function getDiagnostics(textDocument: TextDocumentItem): Promise<void> {
   }
   // connection.console.log(inspect(projectFolders));
 
-  const url: URL = new URL(textDocument.uri);
+  const url: URL = new URL(textDocument.uri.replace('%40', '@'));
   const pathname: string = url.pathname;
   connection.console.log(`Finding project for: ${pathname} `);
   const projectDir: string = getProjectForPath(pathname);
@@ -262,7 +262,7 @@ async function getCodewindProjectFolders(): Promise<string[]> {
   const cwProjectFolders: string[] = [];
   for ( const folder of workspaceFolders) {
     connection.console.log('getCodewindProjectFolders - found folder: ' + inspect(folder));
-    const url: URL = new URL(folder.uri);
+    const url: URL = new URL(folder.uri.replace('%40', '@'));
     const pathname: string = url.pathname;
     connection.console.log('getCodewindProjectFolders - pathname is: ' + pathname);
 
