@@ -40,6 +40,8 @@ type TreeMap = Map<string, Tree>;
 type DisplayNodeMap = Map<string, DisplayNode>;
 type DisplayParentMap = Map<string, DisplayParent>;
 
+const DEFAULT_REMOTE_ROOT = '/app';
+
 export default class ProfilingManager {
   private trees: TreeMap = new Map();
   private connection: Connection;
@@ -48,14 +50,14 @@ export default class ProfilingManager {
     this.connection = connection;
   }
 
-  public getDiagnosticsForFile(
+  public async getDiagnosticsForFile(
     codePath: string,
     profilingPath: string,
     projectFolders: string[],
     hasDiagnosticRelatedInformationCapability: boolean,
-  ): Diagnostic[] {
+  ): Promise<Diagnostic[]> {
     const localPath: string = this.getProjectDirectory(codePath, projectFolders);
-    const appCodePath: string = this.convertToAppDirectory(codePath, localPath);
+    const appCodePath: string = await this.convertToAppDirectory(codePath, localPath);
 
     // read file into tree
     const start: number = Date.now();
@@ -73,11 +75,38 @@ export default class ProfilingManager {
     return projectPath.length >= 1 ? projectPath[0] : '';
   }
 
-  private convertToAppDirectory(filePath: string, localPath: string): string {
+  private async convertToAppDirectory(filePath: string, localPath: string): Promise<string> {
     let updatedFilePath: string = filePath.replace('file://', '');
-    updatedFilePath = updatedFilePath.replace(localPath, '/app');
+    const launchConfig: any = await this.getDebugConfigurationForLocalPAth(updatedFilePath, localPath);
+
+    // If we couldn't find a debug configuration that gives us the
+    // remote root for this project, use the default '/app'.
+    let remoteRoot = DEFAULT_REMOTE_ROOT;
+    if (launchConfig && launchConfig.remoteRoot) {
+      remoteRoot = launchConfig.remoteRoot;
+    }
+    updatedFilePath = updatedFilePath.replace(localPath, remoteRoot);
 
     return updatedFilePath;
+  }
+
+  private async getDebugConfigurationForLocalPAth(pathname: string, workspaceFolder: string): Promise<string> {
+    const debugConfigurations = (await this.connection.workspace.getConfiguration("launch")).configurations;
+    for (const config of debugConfigurations) {
+      if (!config.localRoot && config.remoteRoot) {
+        continue;
+      }
+      if (config.localRoot === "${workspaceFolder}") {
+        // VSCode doesn't actually provide an API for resolving
+        // user defined values but we can resolve `workspaceFolder`
+        // and it's likely to be in the debug configuration.
+        config.localRoot = workspaceFolder;
+      }
+      if (pathname.startsWith(config.localRoot)) {
+        return config;
+      }
+    }
+    return null;
   }
 
   private findOrCreateTree(profilingPath: string): Tree {

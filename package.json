@@ -18,14 +18,14 @@
 		"Load",
 		"Eclipse"
 	],
-	"icon": "res/img/codewind-logo.png",
+	"icon": "res/img/codewind.png",
 	"homepage": "https://www.eclipse.org/codewind/",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/eclipse/codewind-node-profiler"
 	},
 	"bugs": {
-		"url": "https://github.com/eclipse/codewind-node-profiler/issues"
+		"url": "https://github.com/eclipse/codewind/issues"
 	},
 	"engines": {
 		"vscode": "^1.25.0"

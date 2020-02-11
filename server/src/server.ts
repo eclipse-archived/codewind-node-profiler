@@ -177,6 +177,14 @@ connection.onInitialized(() => {
   });
 });
 
+async function checkWindowsDrive(path: string): Promise<string> {
+  if (process.platform === 'win32') {
+    // remove leading slash, correct drive colon
+    return path.replace('%3A', ':').replace('/', '');
+  }
+  return path;
+}
+
 async function getDiagnostics(textDocument: TextDocumentItem): Promise<void> {
   // Lazily initialize project folders.
   if (!projectFolders) {
@@ -186,7 +194,7 @@ async function getDiagnostics(textDocument: TextDocumentItem): Promise<void> {
   // connection.console.log(inspect(projectFolders));
 
   const url: URL = new URL(textDocument.uri);
-  const pathname: string = url.pathname;
+  const pathname: string = await checkWindowsDrive(url.pathname);
   connection.console.log(`Finding project for: ${pathname} `);
   const projectDir: string = getProjectForPath(pathname);
   if (projectDir) {
@@ -263,8 +271,8 @@ async function getCodewindProjectFolders(): Promise<string[]> {
   for ( const folder of workspaceFolders) {
     connection.console.log('getCodewindProjectFolders - found folder: ' + inspect(folder));
     const url: URL = new URL(folder.uri);
-    const pathname: string = url.pathname;
-    connection.console.log('Pathname is: ' + pathname);
+    const pathname: string = await checkWindowsDrive(url.pathname);
+    connection.console.log('getCodewindProjectFolders - pathname is: ' + pathname);
 
     const workspaceProjectFolders: string[] = await searchForFolders(pathname, settings.profilingfolder);
     cwProjectFolders.push(...workspaceProjectFolders);
@@ -303,8 +311,9 @@ async function searchForFolders(pathname: string, name: string): Promise<string[
 
 async function highlightFunctions(textDocument: TextDocumentItem, profilingPath: string): Promise<void> {
   try {
-    const diagnostics: Diagnostic[] = profilingManager.getDiagnosticsForFile(
-      textDocument.uri, profilingPath, projectFolders, hasDiagnosticRelatedInformationCapability,
+    const documentPath = await checkWindowsDrive(textDocument.uri);
+    const diagnostics: Diagnostic[] = await profilingManager.getDiagnosticsForFile(
+      documentPath, profilingPath, projectFolders, hasDiagnosticRelatedInformationCapability,
     );
     highlightedTextDocuments.set(textDocument, diagnostics);
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
