@@ -1,22 +1,21 @@
 #!groovy​
 pipeline {
-//     agent {
-//         kubernetes {
-//             label 'vscodenodeprofiler-buildpod'
-//             yaml """
-// apiVersion: v1
-// kind: Pod
-// spec:
-//   containers:
-//   - name: vscodenodeprofiler-builder
-//     image: node:lts
-//     tty: true
-//     command:
-//       - cat
-// """
-//         }
-//     }
-agent any
+    agent {
+        kubernetes {
+            label 'vscode-buildpod'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: vscode-buildpod
+    image: node:lts
+    tty: true
+    command:
+      - cat
+"""
+        }
+    }
 
 	 options {
         timestamps()
@@ -27,7 +26,7 @@ agent any
         stage('Build') {
 			steps {
 				echo 'Building..'
-				//container("vscodenodeprofiler-builder") {
+				container("vscode-buildpod") {
 					sh '''
 					npm install
 					npm i vsce
@@ -37,7 +36,7 @@ agent any
 					rm codewind-ls-node-prof-19.3.0.vsix
 					ls -la
 				'''
-				//}
+				}
             }
         }
 
