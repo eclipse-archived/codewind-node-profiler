@@ -27,7 +27,7 @@ agent any
         stage('Build') {
 			steps {
 				echo 'Building..'
-				container("vscodenodeprofiler-builder") {
+				//container("vscodenodeprofiler-builder") {
 					sh '''
 					npm install
 					npm i vsce
@@ -37,7 +37,7 @@ agent any
 					rm codewind-ls-node-prof-19.3.0.vsix
 					ls -la
 				'''
-				}
+				//}
             }
         }
 
