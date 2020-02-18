@@ -34,7 +34,7 @@ agent any
 					npx vsce package
 					echo "Extension build complete"
 					ls -la
-					rm codewind-ls-node-prof-19.0.3.vsix
+					rm codewind-ls-node-prof-19.3.0.vsix
 					ls -la
 				'''
 				}
