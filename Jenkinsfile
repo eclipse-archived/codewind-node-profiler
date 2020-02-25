@@ -28,6 +28,7 @@ spec:
 				echo 'Building..'
 				container("vscode-buildpod") {
 					sh '''
+					pwd
 					npm install
 					npm i vsce
 					npx vsce package
