@@ -29,6 +29,7 @@ spec:
 				container("vscode-buildpod") {
 					sh '''
 					pwd
+					sudo chown -R 1000770000:0 "/.npm"
 					npm cache clean --force
 					npm cache verify
 					npm install
