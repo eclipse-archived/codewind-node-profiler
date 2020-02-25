@@ -29,6 +29,8 @@ spec:
 				container("vscode-buildpod") {
 					sh '''
 					pwd
+					npm cache clean --force
+					npm cache verify
 					npm install
 					npm i vsce
 					npx vsce package
