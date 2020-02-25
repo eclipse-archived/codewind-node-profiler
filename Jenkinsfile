@@ -1,20 +1,23 @@
 #!groovy​
 pipeline {
-    agent {
-        kubernetes {
-            label 'vscode-buildpod'
-            yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: vscode-buildpod
-    image: node:lts
-    tty: true
-    command:
-      - cat
-"""
-        }
+//     agent {
+//         kubernetes {
+//             label 'vscode-buildpod'
+//             yaml """
+// apiVersion: v1
+// kind: Pod
+// spec:
+//   containers:
+//   - name: vscode-buildpod
+//     image: node:lts
+//     tty: true
+//     command:
+//       - cat
+// """
+//         }
+//     }
+agent {
+        label "docker-build"
     }
 
 	 options {
@@ -26,12 +29,9 @@ spec:
         stage('Build') {
 			steps {
 				echo 'Building..'
-				container("vscode-buildpod") {
+				//container("vscode-buildpod") {
 					sh '''
 					pwd
-					sudo chown -R 1000770000:0 "/.npm"
-					npm cache clean --force
-					npm cache verify
 					npm install
 					npm i vsce
 					npx vsce package
@@ -40,7 +40,7 @@ spec:
 					rm codewind-ls-node-prof-19.3.0.vsix
 					ls -la
 				'''
-				}
+				//}
             }
         }
 
