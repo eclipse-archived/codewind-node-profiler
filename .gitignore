@@ -7,6 +7,6 @@ build.json
 *.config
 **/.DS_Store
 .settings
-package-lock.json
+server/tsconfig.tsbuildinfo
 **.vsix
 .vscode-test/
