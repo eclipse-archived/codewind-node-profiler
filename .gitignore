@@ -7,6 +7,6 @@ build.json
 *.config
 **/.DS_Store
 .settings
-server/tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
 **.vsix
 .vscode-test/
