@@ -8,7 +8,7 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: vscode-buildpod
+  - name: vscode-builder
     image: node:lts
     tty: true
     command:
@@ -26,7 +26,7 @@ spec:
         stage('Build') {
 			steps {
 				echo 'Building..'
-				container("vscode-buildpod") {
+				container("vscode-builder") {
 					sh '''
 					pwd
 					npm ci
