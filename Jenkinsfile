@@ -1,4 +1,5 @@
 #!groovy​
+
 pipeline {
     agent {
         kubernetes {
@@ -17,12 +18,13 @@ spec:
         }
     }
 
-	 options {
+	options {
         timestamps()
         skipStagesAfterUnstable()
+        timeout(time: 1, unit: 'HOURS')
     }
 
-	environment {
+    environment {
         HOME="."
     }
 
@@ -33,13 +35,15 @@ spec:
 				container("vscode-builder") {
 					sh '''
 					pwd
+                    npm -v
+                    ls -la
 					npm ci
 					npm run vscode:prepublish
 					npm i vsce
 					npx vsce package
 					echo "Extension build complete"
 					ls -la
-					rm codewind-ls-node-prof-19.3.0.vsix
+					rm codewind-ls-node-prof-0.9.0.vsix
 					ls -la
 				'''
 				}
@@ -58,4 +62,4 @@ spec:
             }
         }
     }
-}
+} 
