@@ -22,6 +22,10 @@ spec:
         skipStagesAfterUnstable()
     }
 
+	environment {
+        HOME="."
+    }
+
     stages {
         stage('Build') {
 			steps {
